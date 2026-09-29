@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>الجولة الذهبية · 10 أسئلة ختامية</title>
+<style>
+  :root{
+    --bg:#1A1305; --panel:#241C0C; --panel2:#2E2408; --line:#4A3B10;
+    --gold:#FFD166; --amber:#FFB020; --teal:#21D4A6; --red:#FF6B6B; --ink:#FFF7E6; --muted:#C9A65A;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;height:100%}
+  body{
+    min-height:100vh;display:flex;flex-direction:column;
+    background:radial-gradient(1100px 700px at 15% -10%, rgba(255,209,102,.20), transparent 60%),
+               radial-gradient(900px 600px at 100% 110%, rgba(255,176,32,.16), transparent 60%),
+               var(--bg);
+    color:var(--ink);font-family:"Segoe UI",Tahoma,"Noto Naskh Arabic","Noto Sans Arabic",system-ui,sans-serif;
+    overflow:hidden;
+  }
+  .hidden{display:none!important}
+  #confetti{position:fixed;inset:0;pointer-events:none;z-index:5}
+
+  header{display:flex;align-items:center;justify-content:space-between;padding:22px 34px;border-bottom:1px solid var(--line)}
+  .brand{display:flex;align-items:center;gap:14px}
+  .brand .dot{width:14px;height:14px;border-radius:50%;background:var(--gold);box-shadow:0 0 14px var(--gold)}
+  .brand b{font-size:1.15rem}
+  .brand span{color:var(--muted);font-size:.95rem}
+  .pbar-wrap{width:220px;height:10px;border-radius:999px;background:var(--panel2);border:1px solid var(--line);overflow:hidden}
+  .pbar-wrap i{display:block;height:100%;width:0%;background:linear-gradient(90deg,var(--gold),var(--amber));transition:width .4s ease}
+
+  main{flex:1;display:flex;align-items:center;justify-content:center;padding:20px;position:relative}
+  .stage{width:min(900px,94vw)}
+
+  .kicker{display:inline-flex;align-items:center;gap:10px;background:var(--panel);border:1px solid var(--gold);color:var(--gold);
+    font-weight:800;border-radius:999px;padding:10px 24px;font-size:1.05rem;margin-bottom:22px}
+  .hero h1{font-size:clamp(2.2rem,5.6vw,4rem);margin:0 0 10px;font-weight:900;line-height:1.1;color:var(--ink)}
+  .hero h1 b{color:var(--gold)}
+  .hero p{color:var(--muted);font-size:1.2rem;line-height:1.8;max-width:640px;margin:0 0 26px}
+  .rules{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:30px}
+  .rule{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:18px 16px;text-align:center}
+  .rule .ic{font-size:2rem;margin-bottom:8px}
+  .rule b{display:block;font-size:1.02rem;margin-bottom:4px;color:var(--ink)}
+  .rule span{color:var(--muted);font-size:.88rem;line-height:1.6}
+  @media(max-width:760px){.rules{grid-template-columns:1fr}}
+
+  .btn{font:inherit;font-weight:900;font-size:1.15rem;color:#1A1305;border:0;border-radius:16px;padding:15px 30px;cursor:pointer;
+    background:linear-gradient(90deg,var(--gold),var(--amber));box-shadow:0 10px 26px rgba(255,209,102,.35)}
+  .btn:hover{filter:brightness(1.06)}
+  .btn.teal{background:linear-gradient(90deg,var(--teal),#17b98f);box-shadow:0 10px 26px rgba(33,212,166,.35)}
+  .btn.ghost{background:transparent;color:var(--ink);border:2px solid var(--line);box-shadow:none}
+  .row{display:flex;gap:14px;flex-wrap:wrap;align-items:center;justify-content:center}
+
+  .qnum-big{width:76px;height:76px;border-radius:50%;background:var(--gold);color:#1A1305;font-weight:900;font-size:2rem;
+    display:flex;align-items:center;justify-content:center;margin:0 auto 18px;box-shadow:0 8px 22px rgba(255,209,102,.4)}
+  .qcard{background:var(--panel);border:1px solid var(--line);border-radius:26px;padding:40px 34px;min-height:200px;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;position:relative;overflow:hidden}
+  .qcard .glow{position:absolute;inset:0;background:radial-gradient(500px 260px at 50% -20%,rgba(255,209,102,.20),transparent 65%);pointer-events:none}
+  .qtext{font-size:clamp(1.4rem,3.4vw,2.1rem);font-weight:800;line-height:1.6;position:relative;z-index:1}
+
+  .ans{background:var(--panel2);border:2px solid var(--gold);border-radius:20px;padding:20px 26px;display:none;font-size:1.25rem;
+    line-height:1.8;font-weight:800;text-align:center;margin-top:18px;color:var(--ink)}
+  .ans.show{display:block;animation:pop .35s ease}
+  @keyframes pop{from{transform:scale(.94);opacity:0}to{transform:scale(1);opacity:1}}
+
+  .qctrl{display:flex;justify-content:center;gap:14px;flex-wrap:wrap;margin-top:22px}
+
+  footer{padding:14px 34px;text-align:center;color:var(--muted);font-size:.85rem;border-top:1px solid var(--line)}
+
+  .end h1{font-size:clamp(2.3rem,5.6vw,3.8rem);margin:0 0 12px;color:var(--ink)}
+  .end p{color:var(--muted);font-size:1.2rem;line-height:1.8;max-width:640px}
+  .end .tagline{font-size:clamp(1.6rem,3.6vw,2.4rem);font-weight:900;color:var(--gold);margin-top:14px}
+</style>
+</head>
+<body>
+<canvas id="confetti"></canvas>
+
+<header>
+  <div class="brand"><span class="dot"></span><b>تحدّيات التقنية</b><span>· من التعطل إلى الاستمرار</span></div>
+  <div class="row" style="gap:12px">
+    <span id="pnum" class="hidden" style="color:var(--muted);font-weight:800;direction:ltr"></span>
+    <div class="pbar-wrap"><i id="pbar"></i></div>
+  </div>
+</header>
+
+<main>
+  <div class="stage">
+
+    <!-- شاشة البداية -->
+    <section class="scr" data-i="start">
+      <div class="kicker">🏆 الجولة الذهبية · ختام الورشة</div>
+      <div class="hero">
+        <h1>10 أسئلة <b>برق</b> ⚡</h1>
+        <p>عشر أسئلة خفيفة وسريعة نختم فيها الورشة بحماس! ما فيه وقت للتفكير الطويل — أول جواب يجيكن في بالكن هو الصح غالبًا.</p>
+      </div>
+      <div class="rules">
+        <div class="rule"><div class="ic">⚡</div><b>إجابة سريعة</b><span>بديهة بلا تردد</span></div>
+        <div class="rule"><div class="ic">😄</div><b>أجواء خفيفة</b><span>هدفها المرح لا الاختبار</span></div>
+        <div class="rule"><div class="ic">🎉</div><b>ختام بطاقة</b><span>ننهي الورشة بحماس</span></div>
+      </div>
+      <div class="row"><button class="btn" onclick="start()">يلا نبدأ 🚀</button></div>
+    </section>
+
+    <!-- شاشة السؤال (تُبنى ديناميكيًا) -->
+    <section class="scr hidden" data-i="quiz">
+      <div class="qcard"><div class="glow"></div>
+        <div class="qnum-big" id="qNum">1</div>
+        <p class="qtext" id="qText">...</p>
+        <div class="ans" id="qAns"></div>
+      </div>
+      <div class="qctrl">
+        <button class="btn ghost" onclick="revealAns()">💡 كشف الإجابة</button>
+        <button class="btn" id="nextBtn" onclick="nextQ()">التالي ⚡</button>
+      </div>
+    </section>
+
+    <!-- شاشة الختام -->
+    <section class="scr hidden end" data-i="end">
+      <div class="kicker">🎉 خلّصنا بحماس!</div>
+      <h1>عشر أسئلة... <span style="color:var(--gold)">وعشر ابتسامات!</span></h1>
+      <p>هذي نهاية جولاتنا التفاعلية اليوم. شكرًا لحماسكن وتفاعلكن طول الورشة 💛</p>
+      <div class="tagline">من التعطل... إلى الاستمرار! 🎉</div>
+      <div class="row" style="margin-top:24px"><button class="btn ghost" onclick="start()">↺ إعادة الجولة</button></div>
+    </section>
+
+  </div>
+</main>
+
+<footer>تحدّيات التقنية · الجولة الذهبية الختامية</footer>
+
+<script>
+(function(){
+  "use strict";
+  var screens = {};
+  document.querySelectorAll(".scr").forEach(function(s){ screens[s.dataset.i] = s; });
+
+  var questions = [
+    {q:"وش اسم الورشة اللي أخذناها اليوم؟ قوليها بصوت عالي وحماس! 📣", a:"🎉 تحديات التقنية: من التعطل إلى الاستمرار!"},
+    {q:"كم عدد المحاور اللي مرّت علينا اليوم؟", a:"🔢 13 محورًا!"},
+    {q:"الجهاز المكتبي ما يفتح ولا فيه أي إضاءة إطلاقًا... أول شي تتأكدين منه؟", a:"⚡ توصيل الكهرباء والمنفذ!"},
+    {q:"صورة البروجكتر واضحة بس مو متمركزة صح على السبورة... وش تعدّلين؟", a:"🔍 البؤرة (Focus) والزاوية والمسافة!"},
+    {q:"قبل ما تفتحين أي شي داخل فلاشة جديدة عليك، وش أول خطوة أمان؟", a:"🛡️ تفحصينها ببرنامج الحماية أولًا!"},
+    {q:"وش أهم معلومة لازم تذكرينها بوصف تذكرة الدعم عبر الأودو؟", a:"✍️ اسم الجهاز والفصل، ومتى بدأ العطل بالضبط!"},
+    {q:"شفتِ زميلتك تكافح مع عطل بسيط تعرفين حله... وش أول شي تسوينه؟", a:"🤝 تساعدينها فورًا قبل ما تتصل بالدعم!"},
+    {q:"وش أكثر شي يخليكِ واثقة الحين قدام التقنية بعد اليوم؟ جاوبي بكلمة وحدة!", a:"😄 أي جواب حماسي يستاهل تصفيق!"},
+    {q:"لو لقيتِ سلك ما تعرفين اسمه، وش أذكى تصرف؟", a:"🔎 ترجعين لبطاقة الكيابل المرجعية اللي أخذناها اليوم!"},
+    {q:"آخر سؤال! رددن معايا بصوت عالي وبكل ثقة:", a:"🎉 من التعطل... إلى الاستمرار!"}
+  ];
+
+  var qi = 0;
+  function go(i){
+    Object.keys(screens).forEach(function(k){ screens[k].classList.toggle("hidden", k !== i); });
+    var pnum = document.getElementById("pnum");
+    if (i === "quiz"){ pnum.classList.remove("hidden"); }
+    else { pnum.classList.add("hidden"); }
+    if (i === "start"){ document.getElementById("pbar").style.width = "0%"; }
+    if (i === "end"){ document.getElementById("pbar").style.width = "100%"; burst(); }
+  }
+  function start(){ qi = 0; renderQ(); go("quiz"); }
+  window.start = start;
+
+  function renderQ(){
+    var item = questions[qi];
+    document.getElementById("qNum").textContent = qi+1;
+    document.getElementById("qText").textContent = item.q;
+    var ans = document.getElementById("qAns");
+    ans.textContent = item.a; ans.classList.remove("show");
+    document.getElementById("pnum").textContent = (qi+1) + " / " + questions.length;
+    document.getElementById("pbar").style.width = Math.round((qi)/questions.length*100) + "%";
+    document.getElementById("nextBtn").textContent = (qi === questions.length-1) ? "إنهاء الجولة 🏁" : "التالي ⚡";
+  }
+  function revealAns(){ document.getElementById("qAns").classList.add("show"); }
+  window.revealAns = revealAns;
+  function nextQ(){
+    if (qi < questions.length-1){ qi++; renderQ(); }
+    else { go("end"); }
+  }
+  window.nextQ = nextQ;
+
+  /* لوحة مفاتيح */
+  document.addEventListener("keydown", function(e){
+    if (e.key === "ArrowLeft" || e.key === " ") {
+      e.preventDefault();
+      var cur = Object.keys(screens).find(function(k){ return !screens[k].classList.contains("hidden"); });
+      if (cur === "start") start();
+      else if (cur === "quiz") nextQ();
+    }
+  });
+
+  /* قصاصات احتفالية */
+  var cv = document.getElementById("confetti"), cx = cv.getContext("2d");
+  var pieces = [], running = false;
+  function resize(){ cv.width = innerWidth; cv.height = innerHeight; }
+  addEventListener("resize", resize); resize();
+  var cols = ["#FFD166","#FFB020","#21D4A6","#FF6B6B","#FFF7E6"];
+  function burst(){
+    pieces = [];
+    for (var i=0;i<130;i++){
+      pieces.push({x: innerWidth/2 + (Math.random()-0.5)*220, y: innerHeight*0.35 + (Math.random()-0.5)*80,
+        vx:(Math.random()-0.5)*10, vy:-6-Math.random()*8, g:0.25+Math.random()*0.1,
+        w:6+Math.random()*8, h:10+Math.random()*8, r:Math.random()*6, vr:(Math.random()-0.5)*.3,
+        c: cols[i % cols.length], life: 150+Math.random()*50});
+    }
+    if (!running){ running = true; tick(); }
+  }
+  function tick(){
+    cx.clearRect(0,0,cv.width,cv.height);
+    var alive=false;
+    pieces.forEach(function(p){
+      if (p.life<=0) return; alive=true;
+      p.vy+=p.g; p.x+=p.vx; p.y+=p.vy; p.r+=p.vr; p.life--;
+      cx.save(); cx.globalAlpha=Math.min(1,p.life/40); cx.translate(p.x,p.y); cx.rotate(p.r);
+      cx.fillStyle=p.c; cx.fillRect(-p.w/2,-p.h/2,p.w,p.h); cx.restore();
+    });
+    if (alive) requestAnimationFrame(tick); else running=false;
+  }
+
+  go("start");
+})();
+</script>
+</body>
+</html>
